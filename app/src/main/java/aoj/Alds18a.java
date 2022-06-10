@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Alds18a {
     private static Node NIL_NODE = new Node(-1, null, null);
-
     static class Node {
         int value;
         Node left;
@@ -37,23 +36,22 @@ public class Alds18a {
         inOrderPrint(cur.right);
     }
 
-    static void insert(Node cur, Node newcomer) {
-        if (newcomer.value < cur.value) {
-            if (cur.left == NIL_NODE) {
-                cur.left = newcomer;
-                return;
+    static void insert(Node root, Node newcomer) {
+        Node cur = root;
+        Node parent = NIL_NODE;
+        while (cur != NIL_NODE) {
+            parent = cur;
+            if (newcomer.value < cur.value) {
+                cur = cur.left;
             } else {
-                insert(cur.left, newcomer);
+                cur = cur.right;
             }
         }
 
-        if (newcomer.value > cur.value) {
-            if (cur.right == NIL_NODE) {
-                cur.right = newcomer;
-                return;
-            } else {
-                insert(cur.right, newcomer);
-            }
+        if (newcomer.value < parent.value) {
+            parent.left = newcomer;
+        } else {
+            parent.right = newcomer;
         }
     }
 
