@@ -6,27 +6,26 @@ public class Review {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         int n = s.nextInt();
-        int[] rowCols = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            rowCols[i] = s.nextInt();
-            rowCols[i + 1] = s.nextInt();
-        }
+            String s1 = s.next();
+            String s2 = s.next();
 
-        int[][] dp = new int[n + 1][n + 1];
-        for (int num = 2; num <= n; num++) {
-            for (int first = 1; first <= n - num + 1; first++) {
-                int last = first + num - 1;
-                dp[first][last] = Integer.MAX_VALUE;
-                for (int mid = first; mid <= last - 1; mid++) {
-                    dp[first][last] = Math.min(
-                        dp[first][last],
-                        dp[first][mid] + dp[mid + 1][last] + rowCols[first - 1] * rowCols[mid] * rowCols[last]
-                    );
+            int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+            for (int iS1 = 1; iS1 <= s1.length(); iS1++) {
+                for (int iS2 = 1; iS2 <= s2.length(); iS2++) {
+                    if (s1.charAt(iS1 - 1) == s2.charAt(iS2 - 1)) {
+                        dp[iS1][iS2] = dp[iS1 - 1][iS2 - 1] + 1;
+                    } else {
+                        dp[iS1][iS2] = Math.max(
+                            dp[iS1][iS2 - 1],
+                            dp[iS1 - 1][iS2]
+                        );
+                    }
                 }
             }
-        }
 
-        System.out.println(dp[1][n]);
+            System.out.println(dp[s1.length()][s2.length()]);
+        }
         s.close();
     }
 }
